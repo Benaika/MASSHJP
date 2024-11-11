@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 public class BaseActivity extends AppCompatActivity {
-
     protected Toolbar setToolbar(AppCompatActivity activity, int toolbar, String title) {
         Toolbar toolbarFragment = findViewById(toolbar);
         activity.setSupportActionBar(toolbarFragment);

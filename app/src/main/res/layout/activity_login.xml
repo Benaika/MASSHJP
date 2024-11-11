@@ -88,6 +88,7 @@
                             android:id="@+id/layout_email"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:background="@color/white"
                             android:padding="10dp"
                             android:visibility="visible">
 
@@ -98,10 +99,9 @@
                                 android:layout_marginStart="10dp"
                                 android:background="@android:color/transparent"
                                 android:hint="Email"
+                                android:textColorHint="@color/mid_gray"
                                 android:imeOptions="actionDone"
-                                android:inputType="phone"
-                                android:maxLines="1"
-                                android:maxLength="11"
+                                android:inputType="textEmailAddress"
                                 android:textAlignment="gravity"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
@@ -138,6 +138,7 @@
                             android:id="@+id/layout_pass"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:background="@color/white"
                             android:padding="10dp"
                             android:visibility="visible">
 
@@ -162,6 +163,7 @@
                                 android:background="@color/white"
                                 android:gravity="start|center_vertical"
                                 android:hint="Password"
+                                android:textColorHint="@color/mid_gray"
                                 android:inputType="textPassword"
                                 android:maxLength="50"
                                 android:textColor="@color/black"
@@ -222,9 +224,9 @@
                             <Button
                                 android:id="@+id/btn_proceed"
                                 android:layout_width="match_parent"
-                                android:layout_height="40dp"
+                                android:layout_height="45dp"
                                 android:background="@drawable/button_dark_blue"
-                                android:text="Login"
+                                android:text="LOGIN"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white"
                                 android:textSize="15sp"
@@ -242,7 +244,7 @@
                         android:layout_marginBottom="20dp"
                         android:background="@color/white"
                         android:gravity="center"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"

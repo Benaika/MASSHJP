@@ -24,7 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     private ImageView ivPassword, ivShow;
     private EditText etPassword;
     private Button btnProceed;
-
     boolean showPassword = false;
 
     @Override
@@ -69,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
             ivPassword.setImageResource(R.drawable.ic_pswshow_gry_32);
         } else {
             //parentActivity.password = PayChatApp.Security.encrypt(etPassword.getText().toString(), "PASSWORD");;
-            ivPassword.setImageResource(R.drawable.ico_mas);
+            ivPassword.setImageResource(R.drawable.ic_psw_gry_32);
         }
 
         if (showPassword) {

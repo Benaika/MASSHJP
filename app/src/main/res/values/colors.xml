@@ -82,4 +82,8 @@
     <color name="amber_300">#FFFFD740</color>
     <color name="deep_purple_300">#FFE040FB</color>
 
+    <color name="selected_color">#FFFFFF</color>
+    <color name="unselected_color">#AAAAAA</color>
+    <color name="bottom_nav_background_color">#333333</color> <!-- Background color for BottomNavigationView -->
+
 </resources>
