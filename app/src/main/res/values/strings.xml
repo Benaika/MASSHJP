@@ -3,4 +3,19 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="txtMenu">Menu</string>
+
+    <!-- Profile and Menu text -->
+    <string name="txtMastersList">Official Master List</string>
+    <string name="txtSports">Sportsfest</string>
+    <string name="txtAttendance">Attendance</string>
+    <string name="txtFunds">Funds</string>
+    <string name="txtLive">Live Mass</string>
+    <string name="txtPage">Ministry Page</string>
+    <string name="txtwebsite">Visit Website</string>
+    <string name="txtHelp">Help &amp; Support</string>
+    <string name="txtSettings">Settings &amp; Privacy</string>
+
+    <string name="txtComingSoon">Coming Soon!</string>
+    <string name="txtMaintenance">This feature is still under development.</string>
+
 </resources>

@@ -1,9 +1,13 @@
 package ph.com.masshjp.fb.Controllers.Dashboard;
 
-import android.content.Intent;
+import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 
 import androidx.activity.EdgeToEdge;
@@ -16,20 +20,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-
-import ph.com.masshjp.fb.Controllers.Login.LoginActivity;
 import ph.com.masshjp.fb.R;
 import ph.com.masshjp.fb.databinding.ActivityDashboardBinding;
-import ph.com.masshjp.fb.databinding.ActivityMainBinding;
 
 public class DashboardActivity extends AppCompatActivity {
 
     ActivityDashboardBinding binding;
     DrawerLayout drawerLayout;
     ImageView imgUser;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +55,19 @@ public class DashboardActivity extends AppCompatActivity {
             return insets;
         });
 
-        replaceFragment(new ProfileFragment());
+        replaceFragment(new HomeFragment());
         binding.bottomNavigationView.setBackground(null);
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
 
             if (itemId == R.id.home) {
-                replaceFragment(new ProfileFragment());
+                replaceFragment(new HomeFragment());
             } else if (itemId == R.id.gospel) {
                 replaceFragment(new GospelFragment());
+            } else if (itemId == R.id.handbook) {
+                replaceFragment(new HandbookFragment());
             } else if (itemId == R.id.quiz) {
-                replaceFragment(new SettingsFragment());
+                replaceFragment(new QuizFragment());
             } else if (itemId == R.id.profile) {
                 replaceFragment(new MenuFragment());
             }
@@ -86,5 +88,38 @@ public class DashboardActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
+    }
+
+    private void showLoadingDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading..."); // Set your message
+        progressDialog.setCancelable(false); // Set if it can be canceled by tapping outside
+        progressDialog.show();
+
+        // Create a SpannableStringBuilder with black text
+        SpannableStringBuilder spannableMessage = new SpannableStringBuilder("Loading...");
+        spannableMessage.setSpan(new ForegroundColorSpan(Color.BLACK), 0, spannableMessage.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        progressDialog.setMessage(spannableMessage);
+
+        // Set background color to white
+        Window window = progressDialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.white);
+        }
+    }
+    // Function to hide the loading dialog
+    private void hideLoadingDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+        // Create a SpannableStringBuilder with black text
+        SpannableStringBuilder spannableMessage = new SpannableStringBuilder("Logging in...");
+        spannableMessage.setSpan(new ForegroundColorSpan(Color.BLACK), 0, spannableMessage.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // Set background color to white
+        Window window = progressDialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.white);
+        }
     }
 }

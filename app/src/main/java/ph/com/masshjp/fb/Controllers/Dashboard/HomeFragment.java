@@ -21,10 +21,10 @@ import ph.com.masshjp.fb.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link GospelFragment#newInstance} factory method to
+ * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class GospelFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,11 +35,11 @@ public class GospelFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    // WebView reference
     private WebView webView;
+
     ProgressDialog progressDialog;
 
-    public GospelFragment() {
+    public HomeFragment() {
         // Required empty public constructor
     }
 
@@ -49,11 +49,11 @@ public class GospelFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment GospelFragment.
+     * @return A new instance of fragment ProfileFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static GospelFragment newInstance(String param1, String param2) {
-        GospelFragment fragment = new GospelFragment();
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -73,36 +73,26 @@ public class GospelFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_gospel, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         // Initialize WebView
-        webView = rootView.findViewById(R.id.webViewGospel);
+        webView = rootView.findViewById(R.id.webViewProfile);
 
         // Enable JavaScript
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
+        // Set WebViewClient to handle links inside the WebView
+        webView.setWebViewClient(new WebViewClient());
 
-        // Set WebViewClient to handle links inside the WebView and loading state
-        webView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
-                showLoadingDialog(); // Show the loading dialog when the page starts loading
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                hideLoadingDialog(); // Hide the loading dialog when the page finishes loading
-            }
-        });
         // Load a URL (you can replace this with your desired URL)
-        String url = "https://sites.google.com/view/mas-gospel/home"; // Replace with your desired URL
+        String url = "https://enzoparonable.wixsite.com/my-site"; // Replace with your desired URL
         webView.loadUrl(url);
 
         return rootView;
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -111,6 +101,7 @@ public class GospelFragment extends Fragment {
             webView.destroy();
         }
     }
+
     private void showLoadingDialog() {
         progressDialog = new ProgressDialog(requireContext());
         progressDialog.setMessage("Loading..."); // Set your message

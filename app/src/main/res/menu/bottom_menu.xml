@@ -12,7 +12,7 @@
         android:icon="@drawable/ic_gospel"/>
 
     <item
-        android:id="@+id/attendance"
+        android:id="@+id/handbook"
         android:title="Handbook"
         android:icon="@drawable/ic_booklet"/>
 

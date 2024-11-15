@@ -1,12 +1,24 @@
 package ph.com.masshjp.fb.Controllers.Dashboard;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import ph.com.masshjp.fb.R;
 
@@ -25,6 +37,10 @@ public class MenuFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    WebView webView;
+    ProgressDialog progressDialog;
+    CardView cv_liveMass, cv_mpage, cv_website;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -61,6 +77,25 @@ public class MenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_menu, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
+
+        cv_liveMass = rootView.findViewById(R.id.live_mass);
+        cv_mpage = rootView.findViewById(R.id.ministry_page);
+        cv_website = rootView.findViewById(R.id.website);
+
+
+        cv_liveMass.setOnClickListener(view ->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/SHJPmb ")))
+        );
+
+        cv_mpage.setOnClickListener(view ->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/MAS.SHJPmbs")))
+        );
+
+        cv_website.setOnClickListener(view ->
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://enzoparonable.wixsite.com/my-site")))
+        );
+
+        return rootView;
     }
 }
