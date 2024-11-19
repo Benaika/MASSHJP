@@ -15,6 +15,15 @@
     <string name="txtHelp">Help &amp; Support</string>
     <string name="txtSettings">Settings &amp; Privacy</string>
 
+    <!-- Profile and Menu text -->
+    <string name="tv_title">Altar Servers Training Handbook</string>
+    <string name="cv_module1">INTRODUCTION TO THE MINISTRY OF ALTAR SERVERS</string>
+    <string name="cv_module2">THE ROMAN CATHOLIC CHURCH</string>
+    <string name="cv_module3">THE LITURGY</string>
+    <string name="cv_module4">THE HOLY EUCHARIST CELEBRATION</string>
+    <string name="cv_module5">SACRED OBJECTS</string>
+    <string name="cv_module6">ALTAR PRESENCE, NORMS AND REVERENCE</string>
+
     <string name="txtComingSoon">Coming Soon!</string>
     <string name="txtMaintenance">This feature is still under development.</string>
 

@@ -19,6 +19,10 @@ import androidx.core.view.WindowInsetsCompat;
 import ph.com.masshjp.fb.Controllers.Dashboard.DashboardActivity;
 import ph.com.masshjp.fb.R;
 
+/**
+ * Developed by Benaika Lorenzo Paronable | 2024
+ */
+
 public class LoginActivity extends AppCompatActivity {
 
     private ImageView ivPassword, ivShow;
@@ -61,6 +65,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void checkInputs() {
+
+        /**
+         * Validates the user input and updates the UI elements accordingly.
+         * This method ensures the "Proceed" button is only enabled when the input is valid
+         * and handles password visibility toggling and icon updates.
+         */
+
+        // Flag to determine if the Proceed button should be enabled
         boolean enable = true;
 
         if (etPassword.getText().toString().isEmpty()) {
@@ -71,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
             ivPassword.setImageResource(R.drawable.ic_psw_gry_32);
         }
 
+        // Handle password visibility toggle based on the showPassword flag
         if (showPassword) {
             ivShow.setImageResource(R.drawable.ic_pswshow_gry_32);
             etPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
@@ -79,7 +92,9 @@ public class LoginActivity extends AppCompatActivity {
             etPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
         }
 
+        // Enable or disable the Proceed button based on input validation
         btnProceed.setEnabled(enable);
+        // Adjust the alpha (transparency) of the Proceed button to indicate its state
         btnProceed.getBackground().setAlpha(enable ? 255 :140);
     }
 }

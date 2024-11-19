@@ -99,6 +99,7 @@ public class GospelFragment extends Fragment {
         });
         // Load a URL (you can replace this with your desired URL)
         String url = "https://sites.google.com/view/mas-gospel/home"; // Replace with your desired URL
+        //String url = "https://www.awitatpapuri.com/"; // Replace with your desired URL
         webView.loadUrl(url);
 
         return rootView;

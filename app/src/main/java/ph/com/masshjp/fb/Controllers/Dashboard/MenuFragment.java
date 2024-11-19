@@ -40,7 +40,7 @@ public class MenuFragment extends Fragment {
 
     WebView webView;
     ProgressDialog progressDialog;
-    CardView cv_liveMass, cv_mpage, cv_website;
+    CardView cv_profile, cv_funds, cv_liveMass, cv_mpage, cv_website;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -79,10 +79,27 @@ public class MenuFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
 
+        cv_profile = rootView.findViewById(R.id.cv_profile);
+        cv_funds = rootView.findViewById(R.id.cv_funds);
         cv_liveMass = rootView.findViewById(R.id.live_mass);
         cv_mpage = rootView.findViewById(R.id.ministry_page);
         cv_website = rootView.findViewById(R.id.website);
 
+        cv_profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireContext(), Profile.class);
+                startActivity(intent);
+            }
+        });
+
+        cv_funds.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireContext(), Funds.class);
+                startActivity(intent);
+            }
+        });
 
         cv_liveMass.setOnClickListener(view ->
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/SHJPmb ")))
