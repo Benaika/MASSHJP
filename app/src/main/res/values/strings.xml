@@ -14,9 +14,11 @@
     <string name="txtwebsite">Visit Website</string>
     <string name="txtHelp">Help &amp; Support</string>
     <string name="txtSettings">Settings &amp; Privacy</string>
+    <string name="txtLogout">Logout</string>
 
     <!-- Profile and Menu text -->
     <string name="tv_title">Altar Servers Training Handbook</string>
+    <string name="cv_genKnowldge">GENERAL KNOWLEDGE</string>
     <string name="cv_module1">INTRODUCTION TO THE MINISTRY OF ALTAR SERVERS</string>
     <string name="cv_module2">THE ROMAN CATHOLIC CHURCH</string>
     <string name="cv_module3">THE LITURGY</string>

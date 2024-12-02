@@ -10,7 +10,9 @@ public class BaseActivity extends AppCompatActivity {
         toolbarFragment.setTitle(title);
         toolbarFragment.setContentInsetStartWithNavigation(0);
         toolbarFragment.setNavigationIcon(R.drawable.ic_back_arrow_white);
-        toolbarFragment.setNavigationOnClickListener(view -> onBackPressed());
+        toolbarFragment.setNavigationOnClickListener(view -> {onBackPressed();
+            activity.overridePendingTransition(0, R.anim.exit_to_right);
+        });
         return toolbarFragment;
     }
 }

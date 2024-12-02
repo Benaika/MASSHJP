@@ -90,6 +90,7 @@ public class MenuFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(requireContext(), Profile.class);
                 startActivity(intent);
+                requireActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
             }
         });
 
