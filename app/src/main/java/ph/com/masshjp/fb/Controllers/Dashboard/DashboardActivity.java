@@ -20,12 +20,15 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import ph.com.masshjp.fb.R;
 import ph.com.masshjp.fb.databinding.ActivityDashboardBinding;
 
 public class DashboardActivity extends AppCompatActivity {
 
     ActivityDashboardBinding binding;
+    BottomNavigationView bottomNavigationView;
     DrawerLayout drawerLayout;
     ImageView imgUser;
 
@@ -34,7 +37,7 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+        //EdgeToEdge.enable(this);
         setContentView(R.layout.activity_dashboard);
         // Set status bar color
         getWindow().setStatusBarColor(getResources().getColor(R.color.darkBlue));
@@ -54,6 +57,9 @@ public class DashboardActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
         });
+
+        //BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        //bottomNavigationView.setBackgroundColor(getResources().getColor(R.color.white));
 
         replaceFragment(new HomeFragment());
         binding.bottomNavigationView.setBackground(null);

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_mas"
+    tools:context=".Controllers.Quizzes.GeneralKnowledgeQuiz">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GENERAL KNOWLEDGE"
+            android:layout_gravity="center"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_margin="50dp"
+            android:textColor="@color/white" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center">
+
+            <TextView
+                android:id="@+id/txt_totalQuestions"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:text="Questions: "
+                android:textSize="18sp"
+                android:textColor="@color/white"/>
+
+            <TextView
+                android:id="@+id/txt_numberOfQuestions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:layout_gravity="center"
+                android:textSize="18sp"
+                android:textColor="@color/white"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_questions"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="Questions"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/white"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/txt_optionA"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Option A"
+            android:textColor="@color/white"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/txt_optionB"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Option B"
+            android:textColor="@color/white"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/txt_optionC"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Option C"
+            android:textColor="@color/white"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/txt_optionD"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="Option D"
+            android:textColor="@color/white"
+            android:layout_gravity="center"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSubmit"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:text="SUBMIT"
+            android:layout_marginTop="20dp"
+            android:background="@color/darkBlue"
+            android:textColor="@color/white"
+            android:layout_gravity="center"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnHomepage"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:text="CANCEL"
+            android:layout_marginTop="10dp"
+            android:background="@color/darkBlue"
+            android:textColor="@color/white"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+</ScrollView>
