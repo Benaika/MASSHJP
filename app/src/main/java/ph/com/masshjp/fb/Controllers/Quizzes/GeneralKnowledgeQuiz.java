@@ -15,11 +15,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import ph.com.masshjp.fb.BaseActivity;
 import ph.com.masshjp.fb.Controllers.Categories.GeneralKnowledge;
 import ph.com.masshjp.fb.Controllers.Dashboard.DashboardActivity;
 import ph.com.masshjp.fb.R;
 
-public class GeneralKnowledgeQuiz extends AppCompatActivity implements View.OnClickListener {
+public class GeneralKnowledgeQuiz extends BaseActivity implements View.OnClickListener {
 
     TextView noOfQuestions, tvQuestions;
     Button btnOptionA,btnOptionB,btnOptionC,btnOptionD,btnSubmit;
@@ -33,13 +34,14 @@ public class GeneralKnowledgeQuiz extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_general_knowledge_quiz);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        setToolbar(this, R.id.toolbar, "General Knowledge");
 
         // Apply transition animation
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);
@@ -87,7 +89,7 @@ public class GeneralKnowledgeQuiz extends AppCompatActivity implements View.OnCl
             loadNewQuestion();
         } else {
             selectedAnswer = clickedButton.getText().toString();
-            clickedButton.setBackgroundColor(Color.BLACK);
+            clickedButton.setBackgroundColor(Color.RED);
         }
     }
     void loadNewQuestion(){
@@ -96,6 +98,10 @@ public class GeneralKnowledgeQuiz extends AppCompatActivity implements View.OnCl
             finishQuiz();
             return;
         }
+
+        // Update the current question number in the TextView
+        noOfQuestions.setText((currentQuestionIndex + 1) + " / " + totalQuestions);
+
         tvQuestions.setText(GeneralKnowledge.questions[currentQuestionIndex]);
         btnOptionA.setText(GeneralKnowledge.choices[currentQuestionIndex][0]);
         btnOptionB.setText(GeneralKnowledge.choices[currentQuestionIndex][1]);

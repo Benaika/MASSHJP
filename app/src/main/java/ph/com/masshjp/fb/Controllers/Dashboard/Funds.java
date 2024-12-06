@@ -23,6 +23,6 @@ public class Funds extends BaseActivity {
             return insets;
         });
 
-        //setToolbar(this, R.id.toolbar, "Funds");
+        setToolbar(this, R.id.toolbar, "Funds");
     }
 }
