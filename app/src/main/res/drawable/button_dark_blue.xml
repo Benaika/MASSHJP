@@ -38,7 +38,7 @@
                 android:endColor="@color/darkBlue"
                 android:useLevel="false"/>
             <corners
-                android:radius="20dp" />
+                android:radius="10dp" />
 
             <size android:height="40dp"
                />
