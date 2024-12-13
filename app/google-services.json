@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "246484367478",
+    "project_id": "mas-app-f2ed4",
+    "storage_bucket": "mas-app-f2ed4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246484367478:android:eac78617b35169962e8757",
+        "android_client_info": {
+          "package_name": "com.example.mas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV75G1oy53GZcowlfkGE_cNQvzvJlQyyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246484367478:android:6e75dfd45567f2d12e8757",
+        "android_client_info": {
+          "package_name": "dev.enzo.masshjp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV75G1oy53GZcowlfkGE_cNQvzvJlQyyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:246484367478:android:9024ef0094b1e9d22e8757",
+        "android_client_info": {
+          "package_name": "ph.com.masshjp.fb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV75G1oy53GZcowlfkGE_cNQvzvJlQyyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

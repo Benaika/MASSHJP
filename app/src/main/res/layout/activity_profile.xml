@@ -140,6 +140,54 @@
                                 <ImageView
                                     android:layout_width="25dp"
                                     android:layout_height="25dp"
+                                    android:background="@drawable/ic_nickname_black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Nickname"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginLeft="10dp"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tv_nickname"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="User Nickname"
+                                android:layout_marginLeft="60dp"
+                                android:textColor="@color/black"
+                                android:textSize="18dp"/>
+
+                            <View
+                                android:layout_width="wrap_content"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="30dp"
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginRight="30dp"
+                                android:background="#9E9E9E"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_gravity="center_vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:layout_marginTop="30dp"
+                                android:layout_marginLeft="25dp"
+                                android:layout_marginRight="20dp"
+                                android:layout_marginBottom="10dp">
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
                                     android:background="@drawable/ic_email_black" />
 
                                 <TextView
@@ -152,10 +200,11 @@
                             </LinearLayout>
 
                             <TextView
+                                android:id="@+id/tv_email"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="benaikalorenzo@gmail.com"
-                                android:layout_marginLeft="55dp"
+                                android:text="User Email"
+                                android:layout_marginLeft="60dp"
                                 android:textColor="@color/black"
                                 android:textSize="18dp"/>
 
@@ -199,10 +248,11 @@
                             </LinearLayout>
 
                             <TextView
+                                android:id="@+id/tv_age"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="24yrs old "
-                                android:layout_marginLeft="55dp"
+                                android:text="Users Age"
+                                android:layout_marginLeft="60dp"
                                 android:textColor="@color/black"
                                 android:textSize="18dp"/>
 
@@ -246,10 +296,11 @@
                             </LinearLayout>
 
                             <TextView
+                                android:id="@+id/tv_birthday"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="February 15, 2024"
-                                android:layout_marginLeft="55dp"
+                                android:text="Users Birthday"
+                                android:layout_marginLeft="60dp"
                                 android:textColor="@color/black"
                                 android:textSize="18dp"/>
 
@@ -293,10 +344,11 @@
                             </LinearLayout>
 
                             <TextView
+                                android:id="@+id/tv_address"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="23 G. General Tinio Street Morning Breeze Subdivision Caloocan City"
-                                android:layout_marginLeft="55dp"
+                                android:text="Users Address"
+                                android:layout_marginLeft="60dp"
                                 android:textColor="@color/black"
                                 android:textSize="18dp"/>
 
@@ -340,10 +392,11 @@
                             </LinearLayout>
 
                             <TextView
+                                android:id="@+id/tv_number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="09297611405"
-                                android:layout_marginLeft="55dp"
+                                android:text="Users Contact Number"
+                                android:layout_marginLeft="60dp"
                                 android:textColor="@color/black"
                                 android:textSize="18dp"/>
 
@@ -387,10 +440,11 @@
                             </LinearLayout>
 
                             <TextView
+                                android:id="@+id/tv_order"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="San Pedro"
-                                android:layout_marginLeft="55dp"
+                                android:text="Users Order"
+                                android:layout_marginLeft="60dp"
                                 android:textColor="@color/black"
                                 android:textSize="18dp"/>
 
@@ -434,10 +488,11 @@
                             </LinearLayout>
 
                             <TextView
+                                android:id="@+id/tv_id"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="ausgihdiuasgduiasghdiuagsiud"
-                                android:layout_marginLeft="55dp"
+                                android:text="User ID"
+                                android:layout_marginLeft="60dp"
                                 android:textColor="@color/black"
                                 android:textSize="18dp"
                                 android:layout_marginBottom="30dp"/>

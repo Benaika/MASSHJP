@@ -1,5 +1,6 @@
 package ph.com.masshjp.fb.Controllers.Dashboard;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,16 @@ import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import ph.com.masshjp.fb.Controllers.Login.LoginActivity;
 import ph.com.masshjp.fb.R;
 
 /**
@@ -38,9 +49,15 @@ public class MenuFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    //Firebase
+    private CircleImageView profileImage;
+    private FirebaseAuth auth;
+    private FirebaseFirestore fStore;
+
     WebView webView;
     ProgressDialog progressDialog;
-    CardView cv_profile, cv_funds, cv_liveMass, cv_mpage, cv_website;
+    CardView cv_profile, cv_funds, cv_liveMass, cv_mpage, cv_website, cv_logout;
+    TextView tv_fullname;
 
     public MenuFragment() {
         // Required empty public constructor
@@ -79,11 +96,18 @@ public class MenuFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_menu, container, false);
 
+        // Initialize Firebase
+        auth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
+        profileImage = rootView.findViewById(R.id.profileImage);
+        tv_fullname = rootView.findViewById(R.id.tv_fullname);
         cv_profile = rootView.findViewById(R.id.cv_profile);
         cv_funds = rootView.findViewById(R.id.cv_funds);
         cv_liveMass = rootView.findViewById(R.id.live_mass);
         cv_mpage = rootView.findViewById(R.id.ministry_page);
         cv_website = rootView.findViewById(R.id.website);
+        cv_logout = rootView.findViewById(R.id.cv_logout);
 
         cv_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +138,64 @@ public class MenuFragment extends Fragment {
         cv_website.setOnClickListener(view ->
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://enzoparonable.wixsite.com/my-site")))
         );
+        Logout();
+        fetchProfileImage();
 
         return rootView;
+    }
+
+    private void Logout(){
+        // Set an onClickListener for the CardView
+        cv_logout.setOnClickListener(view -> {
+            // Show confirmation dialog
+            new AlertDialog.Builder(requireContext())
+                    .setMessage("Are you sure you want to logout?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        // Sign out the user
+                        FirebaseAuth.getInstance().signOut();
+
+                        // Navigate back to LoginActivity
+                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+
+                        // Close the dialog
+                        dialog.dismiss();
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> {
+                        // Dismiss the dialog
+                        dialog.dismiss();
+                    })
+                    .show();
+        });
+    }
+
+    private void fetchProfileImage() {
+        String userId = auth.getCurrentUser().getUid();
+        DocumentReference userRef = fStore.collection("users").document(userId);
+
+        userRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+
+                tv_fullname.setText(getSafeString(documentSnapshot, "firstname") + " " + getSafeString(documentSnapshot, "lastname"));
+
+                String imageUrl = documentSnapshot.getString("profileImage");
+                if (imageUrl != null) {
+                    imageUrl = imageUrl.replace("\"", ""); // Remove any double quotes
+                    Glide.with(requireContext()) // Use the fragment's context
+                            .load(imageUrl.trim()) // Ensure no whitespace or invalid characters
+                            .placeholder(R.drawable.img_dp_default)
+                            .error(R.drawable.img_dp_default)
+                            .into(profileImage);
+                } else {
+                    Log.e("asjdioausdi", "Profile image URL is null or empty");
+                }
+            } else {
+                Log.e("jhsiodfyhoisadsa", "Document does not exist");
+            }
+        }).addOnFailureListener(e -> Log.e("ausgdiuoasd", "Error fetching profile image", e));
+    }
+    private String getSafeString(DocumentSnapshot documentSnapshot, String field) {
+        return documentSnapshot.getString(field) != null ? documentSnapshot.getString(field) : "N/A";
     }
 }
