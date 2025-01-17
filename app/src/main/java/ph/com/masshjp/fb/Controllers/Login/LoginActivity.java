@@ -137,6 +137,7 @@ public class LoginActivity extends AppCompatActivity {
             tvError.setVisibility(View.VISIBLE);
             return;
         }
+
         progressDialog.show();
         btnProceed.setEnabled(false); // Disable button to prevent multiple clicks
         auth.signInWithEmailAndPassword(email, password)

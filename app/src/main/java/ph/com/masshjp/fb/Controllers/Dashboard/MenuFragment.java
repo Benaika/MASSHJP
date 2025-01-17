@@ -56,7 +56,7 @@ public class MenuFragment extends Fragment {
 
     WebView webView;
     ProgressDialog progressDialog;
-    CardView cv_profile, cv_funds, cv_liveMass, cv_mpage, cv_website, cv_logout;
+    CardView cv_profile, cv_masterlist, cv_attendance, cv_scheduling, cv_funds, cv_liveMass, cv_mpage, cv_website, cv_logout;
     TextView tv_fullname;
 
     public MenuFragment() {
@@ -103,6 +103,9 @@ public class MenuFragment extends Fragment {
         profileImage = rootView.findViewById(R.id.profileImage);
         tv_fullname = rootView.findViewById(R.id.tv_fullname);
         cv_profile = rootView.findViewById(R.id.cv_profile);
+        cv_masterlist = rootView.findViewById(R.id.cv_masterlist);
+        cv_attendance = rootView.findViewById(R.id.cv_attendance);
+        cv_scheduling = rootView.findViewById(R.id.cv_scheduling);
         cv_funds = rootView.findViewById(R.id.cv_funds);
         cv_liveMass = rootView.findViewById(R.id.live_mass);
         cv_mpage = rootView.findViewById(R.id.ministry_page);
@@ -113,6 +116,33 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(requireContext(), Profile.class);
+                startActivity(intent);
+                requireActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+            }
+        });
+
+        cv_masterlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireContext(), Masterlist.class);
+                startActivity(intent);
+                requireActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+            }
+        });
+
+        cv_attendance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireContext(), Attendance.class);
+                startActivity(intent);
+                requireActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+            }
+        });
+
+        cv_scheduling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireContext(), Scheduling.class);
                 startActivity(intent);
                 requireActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
             }

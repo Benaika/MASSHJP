@@ -25,6 +25,33 @@
         android:theme="@style/Theme.MASSHJP"
         tools:targetApi="31">
         <activity
+            android:name=".Controllers.Handbook.Church"
+            android:exported="false" />
+        <activity
+            android:name=".Controllers.Handbook.Attitudes"
+            android:exported="false" />
+        <activity
+            android:name=".Controllers.Handbook.Objects"
+            android:exported="false" />
+        <activity
+            android:name=".Controllers.Handbook.Celebrations"
+            android:exported="false" />
+        <activity
+            android:name=".Controllers.Handbook.Liturgy"
+            android:exported="false" />
+        <activity
+            android:name=".Controllers.Handbook.Intro"
+            android:exported="false" />
+        <activity
+            android:name=".Controllers.Dashboard.Masterlist"
+            android:exported="false" />
+        <activity
+            android:name=".Controllers.Dashboard.Attendance"
+            android:exported="false" />
+        <activity
+            android:name=".Controllers.Dashboard.Scheduling"
+            android:exported="false" />
+        <activity
             android:name=".Controllers.Signup.Signup"
             android:exported="false" />
         <activity

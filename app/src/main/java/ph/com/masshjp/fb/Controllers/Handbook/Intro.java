@@ -1,89 +1,56 @@
-package ph.com.masshjp.fb.Controllers.Dashboard;
+package ph.com.masshjp.fb.Controllers.Handbook;
 
 import android.app.ProgressDialog;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import ph.com.masshjp.fb.BaseActivity;
 import ph.com.masshjp.fb.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link GospelFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class GospelFragment extends Fragment {
+public class Intro extends BaseActivity {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    // WebView reference
     private WebView webView;
     ProgressDialog progressDialog;
 
-    public GospelFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment GospelFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static GospelFragment newInstance(String param1, String param2) {
-        GospelFragment fragment = new GospelFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+        setContentView(R.layout.activity_intro);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+        // Force landscape orientation
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-        // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_gospel, container, false);
+        setToolbar(this, R.id.toolbar, "Introduction");
 
         // Initialize WebView
-        webView = rootView.findViewById(R.id.webViewGospel);
+        webView = findViewById(R.id.webViewIntro);
 
-        // Enable JavaScript
+        // Enable JavaScript in WebView settings
+        webView.getSettings().setJavaScriptEnabled(true);
+        // Configure WebView settings for zoom
         WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-
+        webSettings.setBuiltInZoomControls(true); // Enable zoom controls
+        webSettings.setDisplayZoomControls(false); // Hide the default zoom controls
+        webSettings.setSupportZoom(true); // Allow zooming
 
         // Set WebViewClient to handle links inside the WebView and loading state
         webView.setWebViewClient(new WebViewClient() {
@@ -98,22 +65,12 @@ public class GospelFragment extends Fragment {
             }
         });
         // Load a URL (you can replace this with your desired URL)
-        String url = "https://sites.google.com/view/mas-gospel/home"; // Replace with your desired URL
-        //String url = "https://www.awitatpapuri.com/2025/01/19/linggo-enero-19-2025/"; // Replace with your desired URL
+        String url = "https://sites.google.com/d/1ZnA9WLI0EclVX1mr2U_aPYhLJ7LG6JdI/p/1ffQvVgt9dxhXqJxxrfJ2ikceHTimFchv/edit"; // Replace with your desired URL
         webView.loadUrl(url);
+    }
 
-        return rootView;
-    }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        // Make sure to destroy the WebView when the fragment is destroyed to avoid memory leaks
-        if (webView != null) {
-            webView.destroy();
-        }
-    }
     private void showLoadingDialog() {
-        progressDialog = new ProgressDialog(requireContext());
+        progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading..."); // Set your message
         progressDialog.setCancelable(false); // Set if it can be canceled by tapping outside
         progressDialog.show();

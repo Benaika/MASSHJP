@@ -6,7 +6,7 @@
 
     <!-- Profile and Menu text -->
     <string name="txtMastersList">Official Master List</string>
-    <string name="txtSports">Sportsfest</string>
+    <string name="txtSports">Altar Servers League</string>
     <string name="txtAttendance">Attendance</string>
     <string name="txtScheduling">Scheduling</string>
     <string name="txtFunds">Funds</string>
@@ -18,7 +18,7 @@
     <string name="txtLogout">Logout</string>
 
     <!-- Profile and Menu text -->
-    <string name="tv_title">Altar Servers Training Handbook</string>
+    <string name="tv_title">Training Handbook</string>
     <string name="cv_genKnowldge">GENERAL KNOWLEDGE</string>
     <string name="cv_module1">INTRODUCTION TO THE MINISTRY OF ALTAR SERVERS</string>
     <string name="cv_module2">THE ROMAN CATHOLIC CHURCH</string>
