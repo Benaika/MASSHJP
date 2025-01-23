@@ -44,7 +44,7 @@
                     android:layout_height="60dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="15dp"
-                    android:background="@drawable/ico_mas"/>
+                    android:src="@drawable/img_dp_default"/>
 
                 <TextView
                     android:id="@+id/tv_fullname"

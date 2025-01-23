@@ -1,14 +1,17 @@
 package ph.com.masshjp.fb.Controllers.Dashboard;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +19,14 @@ import android.view.Window;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 import ph.com.masshjp.fb.R;
 
 /**
@@ -35,7 +45,14 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private FirebaseAuth auth;
+    private FirebaseFirestore fStore;
+
+    private CircleImageView civ_dp;
+
     private WebView webView;
+
+    private CardView cv_post;
 
     ProgressDialog progressDialog;
 
@@ -76,19 +93,26 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Initialize WebView
+        // Initialize Firebase
+        auth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
+
+        // Initialization
         webView = rootView.findViewById(R.id.webViewProfile);
+        cv_post = rootView.findViewById(R.id.cv_post);
+        civ_dp = rootView.findViewById(R.id.civ_dp);
 
-        // Enable JavaScript
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
+        //Fetching display picture
+        fetchProfileImage();
 
-        // Set WebViewClient to handle links inside the WebView
-        webView.setWebViewClient(new WebViewClient());
-
-        // Load a URL (you can replace this with your desired URL)
-        String url = "https://enzoparonable.wixsite.com/my-site"; // Replace with your desired URL
-        webView.loadUrl(url);
+        cv_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), PostActivity.class);
+                startActivity(intent);
+                requireActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+            }
+        });
 
         return rootView;
     }
@@ -133,5 +157,28 @@ public class HomeFragment extends Fragment {
         if (window != null) {
             window.setBackgroundDrawableResource(android.R.color.white);
         }
+    }
+    private void fetchProfileImage() {
+        String userId = auth.getCurrentUser().getUid();
+        DocumentReference userRef = fStore.collection("users").document(userId);
+
+        userRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+
+                String imageUrl = documentSnapshot.getString("profileImage");
+                if (imageUrl != null) {
+                    imageUrl = imageUrl.replace("\"", ""); // Remove any double quotes
+                    Glide.with(requireContext()) // Use the fragment's context
+                            .load(imageUrl.trim()) // Ensure no whitespace or invalid characters
+                            .placeholder(R.drawable.img_dp_default)
+                            .error(R.drawable.img_dp_default)
+                            .into(civ_dp);
+                } else {
+                    Log.e("asjdioausdi", "Profile image URL is null or empty");
+                }
+            } else {
+                Log.e("jhsiodfyhoisadsa", "Document does not exist");
+            }
+        }).addOnFailureListener(e -> Log.e("ausgdiuoasd", "Error fetching profile image", e));
     }
 }
