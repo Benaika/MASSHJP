@@ -46,16 +46,14 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View postView = inflater.inflate(R.layout.rv_post, parent, false);
-        return new PostViewHolder(postView);
 
-//        if (viewType == VIEW_TYPE_VIDEO) {
-//            View videoView = inflater.inflate(R.layout.rv_video_item, parent, false);
-//            return new VideoViewHolder(videoView);
-//        } else {
-//            View postView = inflater.inflate(R.layout.rv_post_item, parent, false);
-//            return new PostViewHolder(postView);
-//        }
+        if (viewType == VIEW_TYPE_VIDEO) {
+            View videoView = inflater.inflate(R.layout.rv_post, parent, false);
+            return new VideoViewHolder(videoView);
+        } else {
+            View postView = inflater.inflate(R.layout.rv_post, parent, false);
+            return new PostViewHolder(postView);
+        }
     }
 
     @Override
@@ -68,13 +66,18 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             ((VideoViewHolder) holder).videoView.start();
             // Bind video data to the VideoViewHolder
             // Customize this part based on your rv_video_item layout
-            videoHolder.firstname.setText(feed.getFirst_name());
-            videoHolder.lastname.setText(feed.last_name);
+            videoHolder.firstname.setText(feed.getFirstname());
+            videoHolder.lastname.setText(feed.getLastname());
             videoHolder.role.setText(feed.getRole());
-            videoHolder.timestamp.setText(feed.getTimestamp().toDate().toString());
+            // Safely handle timestamp
+            if (feed.getTimestamp() != null) {
+                videoHolder.timestamp.setText(feed.getTimestamp().toDate().toString());
+            } else {
+                videoHolder.timestamp.setText("No date available"); // Default text when timestamp is null
+            }
             videoHolder.caption.setText(feed.caption);
             Glide.with(context)
-                    .load(feed.getProfile_url())
+                    .load(feed.getProfileImage())
                     .placeholder(ph.com.masshjp.fb.R.drawable.img_dp_default)
                     .centerInside()
                     .into(videoHolder.userDP);
@@ -86,13 +89,18 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             PostViewHolder postHolder = (PostViewHolder) holder;
             // Bind post data to the PostViewHolder
             // Customize this part based on your rv_post_item layout
-            postHolder.firstname.setText(feed.getFirst_name());
-            postHolder.lastname.setText(feed.getLast_name());
+            postHolder.firstname.setText(feed.getFirstname());
+            postHolder.lastname.setText(feed.getLastname());
             postHolder.role.setText(feed.getRole());
-            postHolder.timestamp.setText(feed.getTimestamp().toDate().toString());
+            // Safely handle timestamp
+            if (feed.getTimestamp() != null) {
+                postHolder.timestamp.setText(feed.getTimestamp().toDate().toString());
+            } else {
+                postHolder.timestamp.setText("No date available"); // Default text when timestamp is null
+            }
             postHolder.caption.setText(feed.caption);
             Glide.with(context)
-                    .load(feed.getProfile_url())
+                    .load(feed.getProfileImage())
                     .placeholder(R.drawable.img_dp_default)
                     .centerInside()
                     .into(postHolder.userDP);

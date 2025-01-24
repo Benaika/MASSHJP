@@ -113,8 +113,8 @@ public class PostActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         SharedPreferences preferences = PostActivity.this.getSharedPreferences("MY_APP", Context.MODE_PRIVATE);
-                                        String userID = preferences.getString("id", "");
-                                        DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(userID);
+                                        String userid = preferences.getString("id", "CM9XCZugSIPZRKvUySwIYD2c5pe2");
+                                        DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(userid);
                                         Intent intent = new Intent(PostActivity.this, DashboardActivity.class);
                                         startActivity(intent);
                                         // Retrieve the document
@@ -123,11 +123,11 @@ public class PostActivity extends AppCompatActivity {
                                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                                 if (documentSnapshot.exists()) {
                                                     // Get the data from the document
-                                                    String firstname = documentSnapshot.getString("first_name");
-                                                    String lastname = documentSnapshot.getString("last_name");
-                                                    String imageUrl = documentSnapshot.getString("profile_url");
+                                                    String firstname = documentSnapshot.getString("firstname");
+                                                    String lastname = documentSnapshot.getString("lastname");
+                                                    String imageUrl = documentSnapshot.getString("profileImage");
                                                     String email = documentSnapshot.getString("email");
-                                                    String role = documentSnapshot.getString("role");
+                                                    String role = documentSnapshot.getString("order");
 
                                                     // Retrieves user input from an EditText and stores it in a String variable named userCaption.
                                                     EditText caption = findViewById(R.id.userCaption);
@@ -137,11 +137,11 @@ public class PostActivity extends AppCompatActivity {
                                                     Map<String, Object> post = new HashMap<>();
                                                     post.put("mediaUrl", uri.toString());
                                                     post.put("timestamp", FieldValue.serverTimestamp());
-                                                    post.put("id", userID);
-                                                    post.put("first_name", firstname);
-                                                    post.put("last_name", lastname);
-                                                    post.put("role", role);
-                                                    post.put("profile_url", imageUrl);
+                                                    post.put("userid", userid);
+                                                    post.put("firstname", firstname);
+                                                    post.put("lastname", lastname);
+                                                    post.put("order", role);
+                                                    post.put("profileImage", imageUrl);
                                                     post.put("caption", userCaption);
                                                     post.put("email", email);
                                                     fStore.collection("posts").add(post);
@@ -159,6 +159,7 @@ public class PostActivity extends AppCompatActivity {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
                                                 // Handle failure case
+                                                Toast.makeText(PostActivity.this, "Error", Toast.LENGTH_SHORT).show();
                                             }
                                         });
                                     }

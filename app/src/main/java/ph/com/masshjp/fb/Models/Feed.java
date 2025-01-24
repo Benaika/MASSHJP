@@ -4,23 +4,23 @@ import com.google.firebase.Timestamp;
 
 public class Feed {
 
-    public String id, profile_url, caption, first_name, last_name, mediaUrl,videoUrl, email, password, gender, birthday
+    public String userid, profileImage, caption, firstname, lastname, mediaUrl,videoUrl, email, password, gender, birthday
             , age, address, mobile_number, role;
 
     public Timestamp timestamp;
 
     public Feed(){}
 
-    public Feed(String id, String profile_url, Timestamp timestamp, String caption, String first_name,
-                String last_name, String mediaUrl, String videoUrl, String email, String password, String gender,
+    public Feed(String userid, String profileImage, Timestamp timestamp, String caption, String firstname,
+                String lastname, String mediaUrl, String videoUrl, String email, String password, String gender,
                 String birthday, String age, String address, String mobile_number, String role) {
 
-        this.id = id;
-        this.profile_url = profile_url;
+        this.userid = userid;
+        this.profileImage = profileImage;
         this.timestamp = timestamp;
         this.caption = caption;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.mediaUrl = mediaUrl;
         this.videoUrl = videoUrl;
         this.email = email;
@@ -33,19 +33,19 @@ public class Feed {
         this.role = role;
     }
 
-    public String getId() {
-        return id;
+    public String getUserid() {
+        return userid;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserid(String id) {
+        this.userid = userid;
     }
-    public String getProfile_url() {
-        return profile_url;
+    public String getProfileImage() {
+        return profileImage;
     }
 
-    public void setProfile_url(String profile_url) {
-        this.profile_url = profile_url;
+    public void setProfile_url(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     public Timestamp getTimestamp() {
@@ -64,20 +64,20 @@ public class Feed {
         this.caption = caption;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastname() {
+        return lastname;
     }
 
     public void setLast_name(String last_name) {
-        this.last_name = last_name;
+        this.lastname = last_name;
     }
 
     public String getMediaUrl() {
