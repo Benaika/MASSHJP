@@ -15,7 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import ph.com.masshjp.fb.Models.Feed;
 import ph.com.masshjp.fb.R;
@@ -59,6 +62,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Feed feed = mFeed.get(position);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM dd, yyyy hh:mm a", Locale.getDefault());
 
         if (holder instanceof VideoViewHolder) {
             VideoViewHolder videoHolder = (VideoViewHolder) holder;
@@ -94,9 +98,10 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             postHolder.role.setText(feed.getRole());
             // Safely handle timestamp
             if (feed.getTimestamp() != null) {
-                postHolder.timestamp.setText(feed.getTimestamp().toDate().toString());
+                Date timestampDate = feed.getTimestamp().toDate();
+                postHolder.timestamp.setText(dateFormat.format(timestampDate));
             } else {
-                postHolder.timestamp.setText("No date available"); // Default text when timestamp is null
+                postHolder.timestamp.setText("No date available");
             }
             postHolder.caption.setText(feed.caption);
             Glide.with(context)

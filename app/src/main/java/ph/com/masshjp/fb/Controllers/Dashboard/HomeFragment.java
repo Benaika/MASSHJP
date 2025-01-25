@@ -13,7 +13,9 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -54,6 +56,8 @@ public class HomeFragment extends Fragment {
     private FirebaseAuth auth;
     private FirebaseFirestore fStore;
 
+    private SwipeRefreshLayout srl;
+
     PostAdapter postAdapter;
 
     RecyclerView recyclerView;
@@ -80,12 +84,13 @@ public class HomeFragment extends Fragment {
         fStore = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = fStore.collection("posts");
 
+        srl = rootView.findViewById(R.id.swipeRefreshLayout);
+
         //Retrieves data of current logged in user
         SharedPreferences preferences = getActivity().getSharedPreferences("MY_APP", Context.MODE_PRIVATE);
         String userid = preferences.getString("id", "CM9XCZugSIPZRKvUySwIYD2c5pe2");
 
         // Initialization
-        webView = rootView.findViewById(R.id.webViewProfile);
         cv_post = rootView.findViewById(R.id.cv_post);
         civ_dp = rootView.findViewById(R.id.civ_dp);
 
@@ -98,6 +103,12 @@ public class HomeFragment extends Fragment {
         recyclerView.setAdapter(postAdapter); // Set PostAdapter on RecyclerView
 
         postMethod();
+
+        // Set up SwipeRefreshLayout
+        srl.setOnRefreshListener(() -> {
+            // Call method to refresh feed data
+            refreshFeedData();
+        });
 
 
         //Fetching display picture
@@ -211,6 +222,31 @@ public class HomeFragment extends Fragment {
                             progressDialog.dismiss();
                         }
                     }
+                });
+    }
+
+    private void refreshFeedData() {
+        // Clear existing data and fetch fresh posts
+        mFeed.clear();
+
+        fStore.collection("posts").orderBy("timestamp", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            Feed feed = document.toObject(Feed.class);
+                            feed.setVideoUrl(document.getString("videoUrl"));
+                            feed.setMediaUrl(document.getString("mediaUrl"));
+                            mFeed.add(feed);
+                        }
+
+                        postAdapter.notifyDataSetChanged();
+                    } else {
+                        Log.e("FirestoreError", "Error refreshing feed", task.getException());
+                    }
+
+                    // Stop refresh animation
+                    srl.setRefreshing(false);
                 });
     }
 }
