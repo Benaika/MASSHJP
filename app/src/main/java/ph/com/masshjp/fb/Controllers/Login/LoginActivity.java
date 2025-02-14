@@ -25,6 +25,8 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import ph.com.masshjp.fb.Controllers.Dashboard.DashboardActivity;
 import ph.com.masshjp.fb.R;
@@ -152,18 +154,36 @@ public class LoginActivity extends AppCompatActivity {
                         if (user != null) {
                             tvError.setVisibility(View.GONE);
 
-                            // Save user session inside loginUser method
-                            SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("EMAIL", email); // Store user email
-                            editor.putBoolean("IS_LOGGED_IN", true); // Mark user as logged in
-                            editor.apply(); // Save changes
+                            // Fetch User ID from Firestore using email
+                            FirebaseFirestore.getInstance().collection("users")
+                                    .whereEqualTo("email", email) // Query Firestore for the user's document
+                                    .get()
+                                    .addOnSuccessListener(querySnapshot -> {
+                                        if (!querySnapshot.isEmpty()) {
+                                            DocumentSnapshot userDoc = querySnapshot.getDocuments().get(0);
+                                            String userID = userDoc.getId(); // Get the Firestore document ID
 
-                            // Login successful, navigate to Dashboard
-                            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);
-                            finish(); // Close LoginActivity
+                                            // Save user session and ID in SharedPreferences
+                                            SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("USER_ID", userID); // Store Firestore User ID
+                                            editor.putString("EMAIL", email); // Store user email
+                                            editor.putBoolean("IS_LOGGED_IN", true); // Mark user as logged in
+                                            editor.apply();
+
+                                            // Login successful, navigate to Dashboard
+                                            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                                            startActivity(intent);
+                                            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);
+                                            finish(); // Close LoginActivity
+                                        } else {
+                                            Toast.makeText(LoginActivity.this, "User data not found!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Log.e("LoginError", "Error fetching user data from Firestore", e);
+                                        Toast.makeText(LoginActivity.this, "Error fetching user data", Toast.LENGTH_SHORT).show();
+                                    });
                         }
                     } else {
                         Log.e("LoginError", "Error: ", task.getException());
@@ -173,6 +193,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
     private void createProgressDialog() {
         // Create a FrameLayout to hold the ProgressBar (to add a box around it)

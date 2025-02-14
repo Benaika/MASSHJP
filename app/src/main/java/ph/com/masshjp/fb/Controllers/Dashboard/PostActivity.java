@@ -8,24 +8,21 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,9 +34,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import ph.com.masshjp.fb.BaseActivity;
@@ -47,152 +42,168 @@ import ph.com.masshjp.fb.R;
 
 public class PostActivity extends BaseActivity {
 
-    FirebaseFirestore fStore;
-    FirebaseStorage fStorage;
-    StorageReference storageRef;
+    private FirebaseFirestore fStore;
+    private FirebaseStorage fStorage;
+    private StorageReference storageRef;
     private static final int PICK_IMAGES_VIDEOS_CODE = 1234;
 
-    LinearLayout btn_add;
-    ImageView imageView;
-    CardView btnPost;
-
-    ProgressDialog progressDialog;
+    private LinearLayout btnAddFile;
+    private ImageView imageView;
+    private CardView btnPost;
+    private EditText etCaption;
+    private Uri selectedImageUri = null; // Stores selected image URI
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
+            v.setPadding(0, insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars()).top, 0, 0);
             return insets;
         });
 
-        //setup toolbar
+        // Setup toolbar
         setToolbar(this, R.id.toolbar, "Post Announcement");
 
-        //Storage for posting images or videos
+        // Firebase initialization
         fStore = FirebaseFirestore.getInstance();
         fStorage = FirebaseStorage.getInstance();
         storageRef = fStorage.getReference().child("media");
 
-        imageView = (ImageView) findViewById(R.id.image_added);
+        // UI initialization
+        imageView = findViewById(R.id.image_added);
+        btnAddFile = findViewById(R.id.btn_addFile);
+        btnPost = findViewById(R.id.btn_post);
+        etCaption = findViewById(R.id.userCaption);
 
-        btn_add = (LinearLayout) findViewById(R.id.btn_addFile);
-        btnPost = (CardView) findViewById(R.id.btn_post);
+        // Disable post button initially
+        btnPost.setEnabled(false);
+        btnPost.setAlpha(0.5f); // Make button look disabled
 
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                startActivityForResult(intent, PICK_IMAGES_VIDEOS_CODE);
-            }
-        });
+        // Add listeners for text and image changes
+        etCaption.addTextChangedListener(textWatcher);
+        btnAddFile.setOnClickListener(view -> pickImageFromGallery());
+
+        btnPost.setOnClickListener(view -> uploadPost());
     }
+
+    // Listen for text changes
+    private final TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            checkIfPostButtonShouldBeEnabled();
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {}
+    };
+
+    // Open gallery to pick an image
+    private void pickImageFromGallery() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*"); // Only allow images
+        startActivityForResult(intent, PICK_IMAGES_VIDEOS_CODE);
+    }
+
+    // Handle image selection result
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGES_VIDEOS_CODE && resultCode == RESULT_OK) {
             if (data.getData() != null) {
-                // If the user picked only one item
-                Uri selectedMediaUri = data.getData();
-                StorageReference fileRef = storageRef.child(selectedMediaUri.getLastPathSegment());
-                UploadTask uploadTask = fileRef.putFile(selectedMediaUri);
-                String selectedMediaType = getContentResolver().getType(selectedMediaUri);
-                if (selectedMediaType.startsWith("image/")) {
-                    // Handle selected image
-                    imageView.setImageURI(selectedMediaUri);
-                }
-
-                btnPost.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        showLoadingDialog();
-                        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                fileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        SharedPreferences preferences = PostActivity.this.getSharedPreferences("MY_APP", Context.MODE_PRIVATE);
-                                        String userid = preferences.getString("id", "CM9XCZugSIPZRKvUySwIYD2c5pe2");
-                                        DocumentReference docRef = FirebaseFirestore.getInstance().collection("users").document(userid);
-                                        Intent intent = new Intent(PostActivity.this, DashboardActivity.class);
-                                        startActivity(intent);
-                                        // Retrieve the document
-                                        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                            @Override
-                                            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                if (documentSnapshot.exists()) {
-                                                    // Get the data from the document
-                                                    String firstname = documentSnapshot.getString("firstname");
-                                                    String lastname = documentSnapshot.getString("lastname");
-                                                    String imageUrl = documentSnapshot.getString("profileImage");
-                                                    String email = documentSnapshot.getString("email");
-                                                    String role = documentSnapshot.getString("order");
-
-                                                    // Retrieves user input from an EditText and stores it in a String variable named userCaption.
-                                                    EditText caption = findViewById(R.id.userCaption);
-                                                    String userCaption = caption.getText().toString();
-
-                                                    // HashMap
-                                                    Map<String, Object> post = new HashMap<>();
-                                                    post.put("mediaUrl", uri.toString());
-                                                    post.put("timestamp", FieldValue.serverTimestamp());
-                                                    post.put("userid", userid);
-                                                    post.put("firstname", firstname);
-                                                    post.put("lastname", lastname);
-                                                    post.put("order", role);
-                                                    post.put("profileImage", imageUrl);
-                                                    post.put("caption", userCaption);
-                                                    post.put("email", email);
-                                                    fStore.collection("posts").add(post);
-                                                    hideLoadingDialog();
-                                                    Toast.makeText(PostActivity.this, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
-                                                    Intent intent = new Intent(PostActivity.this, DashboardActivity.class);
-                                                    startActivity(intent);
-                                                    finish();
-                                                    // Do something with the data
-
-                                                } else {
-                                                    // Handle document does not exist case
-                                                }
-                                            }
-                                        }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                // Handle failure case
-                                                Toast.makeText(PostActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                                            }
-                                        });
-                                    }
-                                });
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                // Handle failure case
-                            }
-                        });
-                    }
-                });
-            } else if (data.getClipData() != null) {
-                // If the user picked multiple items
-                ClipData clipData = data.getClipData();
-                for (int i = 0; i < clipData.getItemCount(); i++) {
-                    Uri selectedMediaUri = clipData.getItemAt(i).getUri();
-                    String selectedMediaType = getContentResolver().getType(selectedMediaUri);
-                    if (selectedMediaType.startsWith("image/")) {
-                        // Handle selected image
-                        imageView.setImageURI(selectedMediaUri);
-                    }
-                }
+                selectedImageUri = data.getData();
+                imageView.setImageURI(selectedImageUri);
+                checkIfPostButtonShouldBeEnabled();
             }
         }
     }
+
+    // Enable/Disable Post Button based on conditions
+    private void checkIfPostButtonShouldBeEnabled() {
+        boolean hasText = !etCaption.getText().toString().trim().isEmpty();
+        boolean hasImage = selectedImageUri != null;
+
+        if (hasText || hasImage) {
+            btnPost.setEnabled(true);
+            btnPost.setAlpha(1.0f);
+        } else {
+            btnPost.setEnabled(false);
+            btnPost.setAlpha(0.5f);
+        }
+    }
+    private void uploadPost() {
+        if (selectedImageUri == null && etCaption.getText().toString().trim().isEmpty()) {
+            Toast.makeText(this, "Please add an image or write something before posting.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        showLoadingDialog();
+
+        if (selectedImageUri != null) {
+            // Upload image to Firebase Storage
+            StorageReference fileRef = storageRef.child(selectedImageUri.getLastPathSegment());
+            UploadTask uploadTask = fileRef.putFile(selectedImageUri);
+            uploadTask.addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> savePostToFirestore(uri.toString())))
+                    .addOnFailureListener(e -> {
+                        hideLoadingDialog();
+                        Toast.makeText(PostActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            // If no image, just save post with text
+            savePostToFirestore(null);
+        }
+    }
+
+    private void savePostToFirestore(String imageUrl) {
+        SharedPreferences preferences = getSharedPreferences("USER", Context.MODE_PRIVATE);
+        String userid = preferences.getString("USER_ID", "");
+
+        DocumentReference docRef = fStore.collection("users").document(userid);
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                String firstname = documentSnapshot.getString("firstname");
+                String lastname = documentSnapshot.getString("lastname");
+                String profileImage = documentSnapshot.getString("profileImage");
+                String email = documentSnapshot.getString("email");
+                String role = documentSnapshot.getString("order");
+
+                // Get text from EditText
+                String userCaption = etCaption.getText().toString().trim();
+
+                // Prepare data to save
+                Map<String, Object> post = new HashMap<>();
+                post.put("mediaUrl", imageUrl);
+                post.put("timestamp", FieldValue.serverTimestamp());
+                post.put("userid", userid);
+                post.put("firstname", firstname);
+                post.put("lastname", lastname);
+                post.put("order", role);
+                post.put("profileImage", profileImage);
+                post.put("caption", userCaption);
+                post.put("email", email);
+
+                fStore.collection("posts").add(post)
+                        .addOnSuccessListener(documentReference -> {
+                            hideLoadingDialog();
+                            Toast.makeText(PostActivity.this, "Post uploaded successfully!", Toast.LENGTH_SHORT).show();
+                            finish();
+                        })
+                        .addOnFailureListener(e -> {
+                            hideLoadingDialog();
+                            Toast.makeText(PostActivity.this, "Failed to upload post", Toast.LENGTH_SHORT).show();
+                        });
+            }
+        }).addOnFailureListener(e -> {
+            hideLoadingDialog();
+            Toast.makeText(PostActivity.this, "Error fetching user data", Toast.LENGTH_SHORT).show();
+        });
+    }
+
     private void showLoadingDialog() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading..."); // Set your message
@@ -200,7 +211,7 @@ public class PostActivity extends BaseActivity {
         progressDialog.show();
 
         // Create a SpannableStringBuilder with black text
-        SpannableStringBuilder spannableMessage = new SpannableStringBuilder("Posting your announcement...");
+        SpannableStringBuilder spannableMessage = new SpannableStringBuilder("Posting Announcement");
         spannableMessage.setSpan(new ForegroundColorSpan(Color.BLACK), 0, spannableMessage.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         progressDialog.setMessage(spannableMessage);

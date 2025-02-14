@@ -88,8 +88,7 @@ public class HomeFragment extends Fragment {
 
         //Retrieves data of current logged in user
         SharedPreferences preferences = getActivity().getSharedPreferences("USER", Context.MODE_PRIVATE);
-        String userid = preferences.getString("id", "");
-        Log.d("ghasuidguias", userid);
+        String userid = preferences.getString("USER_ID", "");
 
         // Initialization
         cv_post = rootView.findViewById(R.id.cv_post);
