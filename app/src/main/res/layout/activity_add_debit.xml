@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Controllers.Dashboard.AddDebit">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="?attr/colorPrimary"
+            app:titleTextColor="@color/white"
+            app:title="Add Debit"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="15dp"
+        android:gravity="center_horizontal"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp">
+
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:background="@drawable/ico_mas"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ministry of Altar Servers - MBS"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="18dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add Fund"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#FFF"
+            android:hint="Source"
+            app:passwordToggleEnabled="false"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="92dp"
+            tools:layout_editor_absoluteY="248dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_source"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/darkBlue"
+                android:textColor="@color/black"
+                android:textSize="15dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#FFF"
+            android:hint="Date"
+            app:passwordToggleEnabled="false"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="92dp"
+            tools:layout_editor_absoluteY="248dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_date"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/darkBlue"
+                android:textColor="@color/black"
+                android:textSize="15dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#FFF"
+            android:hint="Amount"
+            app:passwordToggleEnabled="false"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="92dp"
+            tools:layout_editor_absoluteY="248dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_amount"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/darkBlue"
+                android:textColor="@color/black"
+                android:textSize="15dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#FFF"
+            android:hint="AR number"
+            app:passwordToggleEnabled="false"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="92dp"
+            tools:layout_editor_absoluteY="248dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_ar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/darkBlue"
+                android:textColor="@color/black"
+                android:textSize="15dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:backgroundTint="#FFF"
+            android:hint="Counter name"
+            app:passwordToggleEnabled="false"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="92dp"
+            tools:layout_editor_absoluteY="248dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_counter"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/darkBlue"
+                android:textColor="@color/black"
+                android:textSize="15dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="65dp"
+                android:text="SAVE"
+                android:layout_marginTop="20dp"/>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

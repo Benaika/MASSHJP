@@ -34,7 +34,7 @@ public class Attendance extends BaseActivity {
             return insets;
         });
 
-        setToolbar(this, R.id.toolbar, "Attendance ");
+        setToolbar(this, R.id.toolbar, "Attendance");
 
         // Initialize WebView
         webView = findViewById(R.id.webViewAttendance);

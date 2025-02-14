@@ -5,7 +5,7 @@ import com.google.firebase.Timestamp;
 public class Feed {
 
     public String userid, profileImage, caption, firstname, lastname, mediaUrl,videoUrl, email, password, gender, birthday
-            , age, address, mobile_number, role;
+            , age, address, mobile_number, order;
 
     public Timestamp timestamp;
 
@@ -13,7 +13,7 @@ public class Feed {
 
     public Feed(String userid, String profileImage, Timestamp timestamp, String caption, String firstname,
                 String lastname, String mediaUrl, String videoUrl, String email, String password, String gender,
-                String birthday, String age, String address, String mobile_number, String role) {
+                String birthday, String age, String address, String mobile_number, String order) {
 
         this.userid = userid;
         this.profileImage = profileImage;
@@ -30,7 +30,7 @@ public class Feed {
         this.age = age;
         this.address = address;
         this.mobile_number = mobile_number;
-        this.role = role;
+        this.order = order;
     }
 
     public String getUserid() {
@@ -152,11 +152,11 @@ public class Feed {
         this.mobile_number = mobile_number;
     }
 
-    public String getRole() {
-        return role;
+    public String getOrder() {
+        return order;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setOrder(String order) {
+        this.order = order;
     }
 }

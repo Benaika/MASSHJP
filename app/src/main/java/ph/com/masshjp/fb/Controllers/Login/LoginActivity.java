@@ -1,6 +1,7 @@
 package ph.com.masshjp.fb.Controllers.Login;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -140,18 +141,27 @@ public class LoginActivity extends AppCompatActivity {
 
         progressDialog.show();
         btnProceed.setEnabled(false); // Disable button to prevent multiple clicks
+
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     progressDialog.dismiss();
                     btnProceed.setEnabled(true); // Re-enable button
+
                     if (task.isSuccessful()) {
                         FirebaseUser user = auth.getCurrentUser();
                         if (user != null) {
                             tvError.setVisibility(View.GONE);
+
+                            // Save user session inside loginUser method
+                            SharedPreferences sharedPreferences = getSharedPreferences("USER", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("EMAIL", email); // Store user email
+                            editor.putBoolean("IS_LOGGED_IN", true); // Mark user as logged in
+                            editor.apply(); // Save changes
+
                             // Login successful, navigate to Dashboard
                             Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
                             startActivity(intent);
-                            // Add the transition animation here
                             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);
                             finish(); // Close LoginActivity
                         }
@@ -163,6 +173,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
     }
+
     private void createProgressDialog() {
         // Create a FrameLayout to hold the ProgressBar (to add a box around it)
         FrameLayout frameLayout = new FrameLayout(this);

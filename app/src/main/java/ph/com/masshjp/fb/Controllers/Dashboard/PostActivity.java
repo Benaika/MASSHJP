@@ -1,12 +1,18 @@
 package ph.com.masshjp.fb.Controllers.Dashboard;
 
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +22,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -35,9 +42,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ph.com.masshjp.fb.BaseActivity;
 import ph.com.masshjp.fb.R;
 
-public class PostActivity extends AppCompatActivity {
+public class PostActivity extends BaseActivity {
 
     FirebaseFirestore fStore;
     FirebaseStorage fStorage;
@@ -45,19 +53,23 @@ public class PostActivity extends AppCompatActivity {
     private static final int PICK_IMAGES_VIDEOS_CODE = 1234;
 
     LinearLayout btn_add;
-    ImageView btnDiscard, imageView;
-    Button btnPost;
+    ImageView imageView;
+    CardView btnPost;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_post);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
         });
+
+        //setup toolbar
+        setToolbar(this, R.id.toolbar, "Post Announcement");
 
         //Storage for posting images or videos
         fStore = FirebaseFirestore.getInstance();
@@ -67,15 +79,7 @@ public class PostActivity extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.image_added);
 
         btn_add = (LinearLayout) findViewById(R.id.btn_addFile);
-        btnPost = (Button) findViewById(R.id.btnPost);
-        btnDiscard = (ImageView) findViewById(R.id.btnback);
-
-        btnDiscard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        btnPost = (CardView) findViewById(R.id.btn_post);
 
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +110,7 @@ public class PostActivity extends AppCompatActivity {
                 btnPost.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        showLoadingDialog();
                         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -145,6 +150,7 @@ public class PostActivity extends AppCompatActivity {
                                                     post.put("caption", userCaption);
                                                     post.put("email", email);
                                                     fStore.collection("posts").add(post);
+                                                    hideLoadingDialog();
                                                     Toast.makeText(PostActivity.this, "Successfully Uploaded", Toast.LENGTH_SHORT).show();
                                                     Intent intent = new Intent(PostActivity.this, DashboardActivity.class);
                                                     startActivity(intent);
@@ -185,6 +191,38 @@ public class PostActivity extends AppCompatActivity {
                     }
                 }
             }
+        }
+    }
+    private void showLoadingDialog() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading..."); // Set your message
+        progressDialog.setCancelable(false); // Set if it can be canceled by tapping outside
+        progressDialog.show();
+
+        // Create a SpannableStringBuilder with black text
+        SpannableStringBuilder spannableMessage = new SpannableStringBuilder("Posting your announcement...");
+        spannableMessage.setSpan(new ForegroundColorSpan(Color.BLACK), 0, spannableMessage.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        progressDialog.setMessage(spannableMessage);
+
+        // Set background color to white
+        Window window = progressDialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.white);
+        }
+    }
+    // Function to hide the loading dialog
+    private void hideLoadingDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+        // Create a SpannableStringBuilder with black text
+        SpannableStringBuilder spannableMessage = new SpannableStringBuilder("Logging in...");
+        spannableMessage.setSpan(new ForegroundColorSpan(Color.BLACK), 0, spannableMessage.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        // Set background color to white
+        Window window = progressDialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawableResource(android.R.color.white);
         }
     }
 }

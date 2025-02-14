@@ -106,6 +106,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cv_asleague"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center"

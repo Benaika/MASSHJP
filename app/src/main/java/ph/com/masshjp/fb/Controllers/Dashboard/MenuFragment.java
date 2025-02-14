@@ -54,7 +54,7 @@ public class MenuFragment extends Fragment {
     private FirebaseFirestore fStore;
 
     ProgressDialog progressDialog;
-    CardView cv_profile, cv_masterlist, cv_attendance, cv_scheduling, cv_funds, cv_liveMass, cv_mpage, cv_website, cv_support, cv_logout;
+    CardView cv_profile, cv_masterlist, cv_asleague, cv_attendance, cv_scheduling, cv_funds, cv_liveMass, cv_mpage, cv_website, cv_support, cv_logout;
     TextView tv_fullname;
 
     @Override
@@ -71,6 +71,7 @@ public class MenuFragment extends Fragment {
         tv_fullname = rootView.findViewById(R.id.tv_fullname);
         cv_profile = rootView.findViewById(R.id.cv_profile);
         cv_masterlist = rootView.findViewById(R.id.cv_masterlist);
+        cv_asleague = rootView.findViewById(R.id.cv_asleague);
         cv_attendance = rootView.findViewById(R.id.cv_attendance);
         cv_scheduling = rootView.findViewById(R.id.cv_scheduling);
         cv_funds = rootView.findViewById(R.id.cv_funds);
@@ -93,6 +94,14 @@ public class MenuFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(requireContext(), Masterlist.class);
+                startActivity(intent);
+                requireActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+            }
+        });
+        cv_asleague.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(requireContext(), ASLeagueActivity.class);
                 startActivity(intent);
                 requireActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
             }
@@ -137,19 +146,11 @@ public class MenuFragment extends Fragment {
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://enzoparonable.wixsite.com/my-site")))
         );
 
-        cv_support.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showNotification();
-            }
-        });
-
         Logout();
         fetchProfileImage();
 
         return rootView;
     }
-
     private void Logout(){
         // Set an onClickListener for the CardView
         cv_logout.setOnClickListener(view -> {
@@ -204,67 +205,4 @@ public class MenuFragment extends Fragment {
     private String getSafeString(DocumentSnapshot documentSnapshot, String field) {
         return documentSnapshot.getString(field) != null ? documentSnapshot.getString(field) : "N/A";
     }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String channelId = "simple_notification_channel";
-            CharSequence channelName = "Simple Notification";
-            String channelDescription = "Channel for simple notifications";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-
-            NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
-            channel.setDescription(channelDescription);
-
-            // Register the channel with the system
-            NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
-    }
-
-    private void showNotification() {
-        // For Android 13+, check notification permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (getActivity().checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 101);
-                return; // Wait for user permission
-            }
-        }
-
-        String channelId = "simple_notification_channel"; // Same ID as in createNotificationChannel()
-
-        // Create a Bitmap for the large icon (your logo)
-        Bitmap largeIcon = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ico_mas); // Replace with your logo's resource
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), channelId)
-                .setSmallIcon(android.R.drawable.ic_dialog_info) // Default small icon
-                .setContentTitle("Hello!")
-                .setContentText("You clicked the button!") // Message shown in notification
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setAutoCancel(true) // Auto-dismiss when clicked
-                .setLargeIcon(largeIcon) // Set the large icon (app logo)
-                .setStyle(new NotificationCompat.BigPictureStyle().bigLargeIcon((Bitmap) null).bigPicture(largeIcon)); // Optional for a larger view
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
-
-        // Vibrate the phone for 500 milliseconds
-        Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
-        if (vibrator != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                // For Android 8.0 and above, use vibrate with a pattern
-                VibrationEffect effect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE);
-                vibrator.vibrate(effect);
-            } else {
-                // For older Android versions, use the old vibrate method
-                vibrator.vibrate(500); // Vibrate for 500 milliseconds
-            }
-        }
-
-        // Show the notification
-        notificationManager.notify(1, builder.build()); // Show the notification
-    }
-
-
 }

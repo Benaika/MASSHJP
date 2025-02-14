@@ -72,7 +72,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             // Customize this part based on your rv_video_item layout
             videoHolder.firstname.setText(feed.getFirstname());
             videoHolder.lastname.setText(feed.getLastname());
-            videoHolder.role.setText(feed.getRole());
+            videoHolder.role.setText(feed.getOrder());
             // Safely handle timestamp
             if (feed.getTimestamp() != null) {
                 videoHolder.timestamp.setText(feed.getTimestamp().toDate().toString());
@@ -95,7 +95,7 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             // Customize this part based on your rv_post_item layout
             postHolder.firstname.setText(feed.getFirstname());
             postHolder.lastname.setText(feed.getLastname());
-            postHolder.role.setText(feed.getRole());
+            postHolder.role.setText(feed.getOrder());
             // Safely handle timestamp
             if (feed.getTimestamp() != null) {
                 Date timestampDate = feed.getTimestamp().toDate();
