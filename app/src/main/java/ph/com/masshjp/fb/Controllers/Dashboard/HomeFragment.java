@@ -109,8 +109,7 @@ public class HomeFragment extends Fragment {
             // Call method to refresh feed data
             refreshFeedData();
         });
-
-
+        
         //Fetching display picture
         fetchProfileImage();
 
