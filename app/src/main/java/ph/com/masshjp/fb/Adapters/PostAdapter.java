@@ -3,6 +3,7 @@ package ph.com.masshjp.fb.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import ph.com.masshjp.fb.Controllers.Dashboard.ImageViewActivity;
 import ph.com.masshjp.fb.Models.Feed;
 import ph.com.masshjp.fb.R;
 
@@ -70,8 +72,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             ((VideoViewHolder) holder).videoView.start();
             // Bind video data to the VideoViewHolder
             // Customize this part based on your rv_video_item layout
-            videoHolder.firstname.setText(feed.getFirstname());
-            videoHolder.lastname.setText(feed.getLastname());
+            videoHolder.firstname.setText(feed.getFirstname() + " ");
+            videoHolder.lastname.setText(feed.getLastname() + " ");
             videoHolder.role.setText(feed.getOrder());
             // Safely handle timestamp
             if (feed.getTimestamp() != null) {
@@ -93,8 +95,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             PostViewHolder postHolder = (PostViewHolder) holder;
             // Bind post data to the PostViewHolder
             // Customize this part based on your rv_post_item layout
-            postHolder.firstname.setText(feed.getFirstname());
-            postHolder.lastname.setText(feed.getLastname());
+            postHolder.firstname.setText(feed.getFirstname() + " ");
+            postHolder.lastname.setText(feed.getLastname() + " ");
             postHolder.role.setText(feed.getOrder());
             // Safely handle timestamp
             if (feed.getTimestamp() != null) {
@@ -116,17 +118,17 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
                     .centerInside()
                     .into(postHolder.imageView);
 
-//            postHolder.imageView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    // Handle click event for opening the image in a larger view
-//                    // You can customize this part based on your requirements
-//                    // For example, start a new activity or show a dialog with the larger image
-//                    Intent intent = new Intent(context, LargerImageActivity.class);
-//                    intent.putExtra("mediaUrl", feed.getMediaUrl());
-//                    context.startActivity(intent);
-//                }
-//            });
+            postHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Handle click event for opening the image in a larger view
+                    // You can customize this part based on your requirements
+                    // For example, start a new activity or show a dialog with the larger image
+                    Intent intent = new Intent(context, ImageViewActivity.class);
+                    intent.putExtra("mediaUrl", feed.getMediaUrl());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
