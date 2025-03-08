@@ -31,9 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="MAS"
+            android:textSize="25dp"
             android:textColor="@color/white"
-            android:textSize="30dp"
-            android:textStyle="bold"/>
+            android:fontFamily="@font/sigmar_regular"/>
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -54,7 +54,7 @@
             android:layout_width="42dp"
             android:layout_height="42dp"
             android:src="@drawable/img_dp_default"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="17dp"
             android:layout_marginRight="10dp"
             app:civ_border_width="1dp"/>
 

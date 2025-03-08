@@ -19,7 +19,8 @@
             android:textColor="@color/black"
             android:textSize="30dp"
             android:textStyle="bold"
-            android:layout_margin="10dp"/>
+            android:layout_margin="10dp"
+            android:fontFamily="@font/sigmar_regular"/>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_profile"

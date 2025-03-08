@@ -18,7 +18,7 @@
     <string name="txtLogout">Logout</string>
 
     <!-- Profile and Menu text -->
-    <string name="tv_title">Training Handbook</string>
+    <string name="tv_title">Modules</string>
     <string name="cv_genKnowldge">GENERAL KNOWLEDGE</string>
     <string name="cv_module1">INTRODUCTION TO THE MINISTRY OF ALTAR SERVERS</string>
     <string name="cv_module2">THE ROMAN CATHOLIC CHURCH</string>
