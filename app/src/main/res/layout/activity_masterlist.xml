@@ -21,6 +21,34 @@
             app:titleTextColor="@color/white"
             app:title="Masterlist" />
 
+        <!-- Members Count -->
+        <!-- Members Count -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_members"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="34 members"
+                android:textSize="16dp"
+                android:layout_marginStart="15dp" />
+
+            <ImageView
+                android:id="@+id/btn_filter"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="15dp"
+                android:src="@drawable/ic_filter"
+                android:contentDescription="Filter members"
+                android:clickable="true"
+                android:focusable="true"/>
+        </LinearLayout>
+
         <!-- Search Bar -->
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
@@ -29,22 +57,6 @@
             android:queryHint="Search members..."
             android:iconifiedByDefault="false"
             android:layout_margin="8dp" />
-
-        <!-- Members Count -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_members"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="34 members"
-                android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
-                android:textSize="16dp"/>
-        </LinearLayout>
 
         <!-- RecyclerView -->
         <LinearLayout

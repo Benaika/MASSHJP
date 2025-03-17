@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/filter_all"
+        android:title="All" />
+    <item
+        android:id="@+id/filter_officers"
+        android:title="Officers" />
+    <item
+        android:id="@+id/filter_seniors"
+        android:title="Seniors" />
+    <item
+        android:id="@+id/filter_juniors"
+        android:title="Juniors" />
+    <item
+        android:id="@+id/filter_squires"
+        android:title="Squires" />
+    <item
+        android:id="@+id/filter_parents"
+        android:title="Parents" />
+</menu>

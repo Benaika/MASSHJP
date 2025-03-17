@@ -2,6 +2,7 @@ package ph.com.masshjp.fb.Controllers.Dashboard;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Calendar;
@@ -20,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ph.com.masshjp.fb.BaseActivity;
+import ph.com.masshjp.fb.Models.DebitModel;
 import ph.com.masshjp.fb.R;
 
 public class AddDebit extends BaseActivity {
@@ -134,32 +137,35 @@ public class AddDebit extends BaseActivity {
      */
     private void saveTransactionToFirestore() {
         String source = sourceEditText.getText().toString().trim();
-        String date = dateEditText.getText().toString().trim();
-        String amount = amountEditText.getText().toString().trim();
-        String arNumber = arNumberEditText.getText().toString().trim();
-        String counterName = counterNameEditText.getText().toString().trim();
+        String date = et_date.getText().toString().trim();
+        String amountStr = amountEditText.getText().toString().trim();
+        String ar = arNumberEditText.getText().toString().trim();
+        String counter = counterNameEditText.getText().toString().trim();
 
-        if (!areFieldsValid(source, date, amount, arNumber, counterName)) {
-            Toast.makeText(this, "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
+        if (source.isEmpty() || date.isEmpty() || amountStr.isEmpty() || ar.isEmpty() || counter.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        double amount = Double.parseDouble(amountStr);
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+
+        // Create a map for the debit transaction
         Map<String, Object> transactionData = new HashMap<>();
         transactionData.put("source", source);
         transactionData.put("date", date);
         transactionData.put("amount", amount);
-        transactionData.put("arNumber", arNumber);
-        transactionData.put("counterName", counterName);
+        transactionData.put("ar", ar);
+        transactionData.put("counter", counter);
+        transactionData.put("timestamp", FieldValue.serverTimestamp()); // Auto-generated timestamp
 
-        firestore.collection("debits")
-                .add(transactionData)
+        fStore.collection("debits").add(transactionData)
                 .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(this, "Transaction successfully saved!", Toast.LENGTH_SHORT).show();
-                    clearInputFields();
+                    Toast.makeText(this, "Debit Added Successfully", Toast.LENGTH_SHORT).show();
+                    updateTotalFunds(amount);
+                    onBackPressed();
                 })
-                .addOnFailureListener(e ->
-                        Toast.makeText(this, "Error saving transaction: " + e.getMessage(), Toast.LENGTH_SHORT).show()
-                );
+                .addOnFailureListener(e -> Log.e("FirestoreError", "Error adding debit", e));
     }
 
     /**
@@ -184,4 +190,28 @@ public class AddDebit extends BaseActivity {
         arNumberEditText.setText("");
         counterNameEditText.setText("");
     }
+
+    private void updateTotalFunds(double newAmount) {
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        fStore.collection("funds").document("totalFunds")
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        double currentTotal = documentSnapshot.getDouble("total") != null ? documentSnapshot.getDouble("total") : 0.0;
+                        double updatedTotal = currentTotal + newAmount;
+
+                        fStore.collection("funds").document("totalFunds")
+                                .update("total", updatedTotal)
+                                .addOnSuccessListener(aVoid -> Log.d("Firestore", "Total funds updated"))
+                                .addOnFailureListener(e -> Log.e("FirestoreError", "Error updating total funds", e));
+                    } else {
+                        // Kung walang existing document, gumawa ng bago
+                        fStore.collection("funds").document("totalFunds")
+                                .set(new HashMap<String, Object>() {{
+                                    put("total", newAmount);
+                                }});
+                    }
+                });
+    }
+
 }

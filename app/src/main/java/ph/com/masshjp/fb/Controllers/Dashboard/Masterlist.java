@@ -1,13 +1,14 @@
 package ph.com.masshjp.fb.Controllers.Dashboard;
 
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,37 +29,37 @@ public class Masterlist extends BaseActivity {
     private FirebaseFirestore fStore;
     private RecyclerView recyclerView;
     private MasterListAdapter adapter;
-    private List<Users> userList;
-    private TextView tvMembers; // TextView for displaying member count
+    private List<Users> userList, filteredList;
+    private TextView tvMembers;
+    private SearchView searchView;
+    private ImageView btnFilter; // Add filter button
+
+    private String selectedCategory = ""; // Stores the currently selected category
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_masterlist);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
 
         fStore = FirebaseFirestore.getInstance();
+        setToolbar(this, R.id.toolbar, "Masterlist");
 
-        setToolbar(this, R.id.toolbar, "Masterlist ");
-
-        // Initialize RecyclerView
         recyclerView = findViewById(R.id.rv_masterList);
+        tvMembers = findViewById(R.id.tv_members);
+        searchView = findViewById(R.id.searchView);
+        btnFilter = findViewById(R.id.btn_filter); // Initialize filter button
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        tvMembers = findViewById(R.id.tv_members);
-
-        // Create user data
         userList = new ArrayList<>();
-        adapter = new MasterListAdapter(userList);
+        filteredList = new ArrayList<>();
+
+        adapter = new MasterListAdapter(filteredList);
         recyclerView.setAdapter(adapter);
 
-        // Fetch data from Firestore
         fetchDataFromFirestore();
-
+        setupSearchView();
+        setupFilterButton(); // Initialize the filter button
     }
 
     private void fetchDataFromFirestore() {
@@ -67,35 +68,101 @@ public class Masterlist extends BaseActivity {
         usersCollection.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 userList.clear();
-
-                int userCount = 0; // Counter for user count
-
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    String profileImage = document.getString("profileImage");
-                    String firstname = document.getString("firstname");
-                    String lastname = document.getString("lastname");
-                    String nickname = document.getString("nickname");
-                    String age = document.getString("age");
-                    String order = document.getString("order");
-
-                    // Create a Users object and add it to the list
-                    userList.add(new Users(profileImage, firstname, lastname, nickname, age, order));
-                    userCount++; // Increment user count
+                    Users user = new Users(
+                            document.getString("profileImage"),
+                            document.getString("firstname"),
+                            document.getString("lastname"),
+                            document.getString("nickname"),
+                            document.getString("age"),
+                            document.getString("order") // This field determines the category
+                    );
+                    userList.add(user);
                 }
+                // Ensure filteredList is initially the same as userList
+                filteredList.clear();
+                filteredList.addAll(userList);
+
+                // Update UI
                 adapter.notifyDataSetChanged();
-
-                // Update TextView with user count
-                if(userCount == 0 || userCount == 1){
-                    tvMembers.setText(userCount + " member");
-                } else {
-                    tvMembers.setText(userCount + " members");
-                }
-
+                updateMemberCount(filteredList.size());
             } else {
-                // Handle errors
                 tvMembers.setText("Error fetching members");
-                // Log.e("FirestoreError", "Error fetching users", task.getException());
             }
         });
+    }
+
+    private void setupSearchView() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filterList(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterList(newText);
+                return false;
+            }
+        });
+    }
+
+    private void filterList(String query) {
+        filteredList.clear();
+        if (query.isEmpty()) {
+            filteredList.addAll(userList);
+        } else {
+            String lowerCaseQuery = query.toLowerCase();
+            for (Users user : userList) {
+                if (user.getFirstname().toLowerCase().contains(lowerCaseQuery) ||
+                        user.getLastname().toLowerCase().contains(lowerCaseQuery) ||
+                        user.getNickname().toLowerCase().contains(lowerCaseQuery)) {
+                    filteredList.add(user);
+                }
+            }
+        }
+        applyCategoryFilter();
+    }
+
+    private void setupFilterButton() {
+        btnFilter.setOnClickListener(view -> {
+            PopupMenu popupMenu = new PopupMenu(this, btnFilter);
+            popupMenu.getMenuInflater().inflate(R.menu.filter_menu, popupMenu.getMenu()); // Create filter_menu.xml
+
+            popupMenu.setOnMenuItemClickListener(menuItem -> {
+                selectedCategory = menuItem.getTitle().toString();
+                applyCategoryFilter();
+                return true;
+            });
+
+            popupMenu.show();
+        });
+    }
+
+    private void applyCategoryFilter() {
+        List<Users> tempFilteredList = new ArrayList<>();
+
+        for (Users user : userList) {
+            boolean matchesSearch = searchView.getQuery().toString().isEmpty() ||
+                    user.getFirstname().toLowerCase().contains(searchView.getQuery().toString().toLowerCase()) ||
+                    user.getLastname().toLowerCase().contains(searchView.getQuery().toString().toLowerCase()) ||
+                    user.getNickname().toLowerCase().contains(searchView.getQuery().toString().toLowerCase());
+
+            boolean matchesCategory = selectedCategory.isEmpty() || user.getOrder().equalsIgnoreCase(selectedCategory);
+
+            if (matchesSearch && matchesCategory) {
+                tempFilteredList.add(user);
+            }
+        }
+
+        filteredList.clear();
+        filteredList.addAll(tempFilteredList);
+        adapter.notifyDataSetChanged();
+        updateMemberCount(filteredList.size());
+    }
+
+    private void updateMemberCount(int count) {
+        tvMembers.setText(count + (count == 1 ? " member" : " members"));
     }
 }
