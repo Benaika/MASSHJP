@@ -24,7 +24,7 @@
         <ImageView
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@drawable/ico_mas"
+            android:background="@drawable/ic_logo"
             android:layout_marginRight="8dp"/>
 
         <TextView
@@ -36,8 +36,8 @@
             android:fontFamily="@font/sigmar_regular"/>
 
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
             android:background="@drawable/ic_chat"
             android:layout_marginRight="10dp"
             android:layout_gravity="end"/>
