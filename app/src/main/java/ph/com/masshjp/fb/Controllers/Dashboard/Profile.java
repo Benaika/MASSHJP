@@ -34,7 +34,7 @@ public class Profile extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setStatusBarColor(getResources().getColor(R.color.darkBlue));
+        getWindow().setStatusBarColor(getResources().getColor(R.color.lightMaroon));
         setContentView(R.layout.activity_profile);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

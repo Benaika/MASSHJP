@@ -8,7 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="darkBlue">#0E2954</color>
+    <color name="maroon">#200d07</color>
     <color name="outlinedColor">#9E9E9E</color>
+    <color name="lightMaroon">#5b1a0c</color>
 
     <color name="transparent">#00000000</color>
     <color name="mid_gray">#BDBDBD</color> <!--Placeholder text-->

@@ -40,7 +40,7 @@ public class DashboardActivity extends AppCompatActivity {
         //EdgeToEdge.enable(this);
         setContentView(R.layout.activity_dashboard);
         // Set status bar color
-        getWindow().setStatusBarColor(getResources().getColor(R.color.darkBlue));
+        getWindow().setStatusBarColor(getResources().getColor(R.color.lightMaroon));
 
         // Initialize binding using data binding
         binding = ActivityDashboardBinding.inflate(getLayoutInflater());
@@ -51,7 +51,7 @@ public class DashboardActivity extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
 
         // Set navigation bar color
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.darkBlue));
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.lightMaroon));
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main_layout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);

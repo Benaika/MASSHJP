@@ -46,7 +46,7 @@ public class GeneralKnowledgeQuiz extends BaseActivity implements View.OnClickLi
         // Apply transition animation
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_in_left);
 
-        choicesColor = getResources().getColor(R.color.darkBlue);
+        choicesColor = getResources().getColor(R.color.lightMaroon);
 
         // Initializing UI elements for a quiz app:
         noOfQuestions = findViewById(R.id.txt_numberOfQuestions);
