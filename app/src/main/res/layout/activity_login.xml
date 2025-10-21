@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_mas"
+    android:background="@drawable/bg_login"
     android:orientation="vertical"
     tools:context=".Controllers.Login.LoginActivity">
 
@@ -37,10 +37,10 @@
                 android:layout_gravity="center_horizontal"/>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:cardCornerRadius="10dp"
-                android:layout_gravity="bottom">
+                app:cardCornerRadius="15dp"
+                android:layout_gravity="center">
 
                 <LinearLayout
                     android:layout_width="350dp"
@@ -224,7 +224,7 @@
                                 android:id="@+id/btn_proceed"
                                 android:layout_width="match_parent"
                                 android:layout_height="50dp"
-                                android:background="@drawable/button_dark_blue"
+                                android:background="@color/lightMaroon"
                                 android:text="LOGIN"
                                 android:textAllCaps="false"
                                 android:textColor="@color/white"
