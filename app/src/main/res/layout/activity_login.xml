@@ -9,21 +9,21 @@
     android:orientation="vertical"
     tools:context=".Controllers.Login.LoginActivity">
 
-    <ScrollView
-        android:id="@+id/main_scroll_view"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="false"
-        android:layout_centerVertical="false"
-        android:background="@color/zxing_transparent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+<!--    <ScrollView-->
+<!--        android:id="@+id/main_scroll_view"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_centerHorizontal="false"-->
+<!--        android:layout_centerVertical="false"-->
+<!--        android:background="@color/zxing_transparent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.0">-->
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="vertical">
 
@@ -37,7 +37,7 @@
                 android:layout_gravity="center_horizontal"/>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:cardCornerRadius="15dp"
                 android:layout_gravity="center">
@@ -304,6 +304,6 @@
 
         </LinearLayout>
 
-    </ScrollView>
+<!--    </ScrollView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
