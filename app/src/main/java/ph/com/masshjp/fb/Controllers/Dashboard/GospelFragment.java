@@ -84,6 +84,16 @@ public class GospelFragment extends Fragment {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            if (android.webkit.WebView.getCurrentWebViewPackage() != null) {
+                String provider = android.webkit.WebView.getCurrentWebViewPackage().packageName;
+                android.util.Log.d("sdfsdfdsf", "Using provider: " + provider);
+            } else {
+                android.util.Log.e("asdsasaf", "No WebView provider found!");
+            }
+        }
+
+
 
         // Set WebViewClient to handle links inside the WebView and loading state
         webView.setWebViewClient(new WebViewClient() {

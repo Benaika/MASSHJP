@@ -23,6 +23,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -46,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private ImageView ivPassword, ivShow;
     private TextView tvError;
     private EditText etEmail, etPassword;
-    private Button btnProceed;
+    private MaterialCardView btnProceed;
     boolean showPassword = false;
 
     @Override
@@ -71,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.et_password);
         etPassword.setText("");
 
-        btnProceed = findViewById(R.id.btn_proceed);
+        btnProceed = findViewById(R.id.cv_proceed);
 
         ivShow.setOnClickListener(v -> {
             showPassword = !showPassword;

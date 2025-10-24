@@ -9,22 +9,22 @@
     android:orientation="vertical"
     tools:context=".Controllers.Login.LoginActivity">
 
-<!--    <ScrollView-->
-<!--        android:id="@+id/main_scroll_view"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_centerHorizontal="false"-->
-<!--        android:layout_centerVertical="false"-->
-<!--        android:background="@color/zxing_transparent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:layout_constraintVertical_bias="0.0">-->
+    <ScrollView
+        android:id="@+id/main_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="false"
+        android:layout_centerVertical="false"
+        android:background="@color/zxing_transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:orientation="vertical">
 
             <ImageView
@@ -37,15 +37,14 @@
                 android:layout_gravity="center_horizontal"/>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 app:cardCornerRadius="15dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="-250dp">
+                android:layout_gravity="center">
 
                 <LinearLayout
                     android:layout_width="350dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:background="@color/white"
                     android:gravity="center"
@@ -206,10 +205,11 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical">
 
-                        <androidx.cardview.widget.CardView
+                        <com.google.android.material.card.MaterialCardView
                             android:id="@+id/cv_proceed"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="50dp"
+                            app:cardBackgroundColor="@color/lightMaroon"
                             android:layout_marginStart="20dp"
                             android:layout_marginEnd="20dp"
                             android:layout_marginTop="10dp"
@@ -221,18 +221,27 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
-                            <Button
-                                android:id="@+id/btn_proceed"
-                                android:layout_width="match_parent"
-                                android:layout_height="50dp"
-                                android:background="@color/lightMaroon"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:text="LOGIN"
-                                android:textAllCaps="false"
-                                android:textColor="@color/white"
+                                android:layout_gravity="center"
                                 android:textSize="15sp"
-                                tools:ignore="TouchTargetSizeCheck" />
+                                android:textStyle="bold"
+                                android:textColor="@color/white"/>
 
-                        </androidx.cardview.widget.CardView>
+<!--                            <Button-->
+<!--                                android:id="@+id/btn_proceed"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="50dp"-->
+<!--                                android:background="@color/lightMaroon"-->
+<!--                                android:text="LOGIN"-->
+<!--                                android:textAllCaps="false"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="15sp"-->
+<!--                                tools:ignore="TouchTargetSizeCheck" />-->
+
+                        </com.google.android.material.card.MaterialCardView>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -305,6 +314,6 @@
 
         </LinearLayout>
 
-<!--    </ScrollView>-->
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

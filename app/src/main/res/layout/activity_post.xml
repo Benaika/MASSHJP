@@ -16,8 +16,8 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="?attr/colorPrimary"
+            android:layout_height="60dp"
+            android:background="@color/lightMaroon"
             app:titleTextColor="@color/white"
             app:title="Post Announcement" >
 

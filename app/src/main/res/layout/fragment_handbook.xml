@@ -16,7 +16,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:background="?attr/colorPrimary"
+            android:background="@color/lightMaroon"
             android:title="Profile"
             android:titleTextColor="@android:color/white"
             app:layout_constraintTop_toTopOf="parent"
