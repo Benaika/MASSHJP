@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private AlertDialog progressDialog;
 
     private ImageView ivPassword, ivShow;
-    private TextView tvError;
+    private TextView tvError, tvJoinUs;
     private EditText etEmail, etPassword;
     private MaterialCardView btnProceed;
     boolean showPassword = false;
@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         etPassword.setText("");
 
         btnProceed = findViewById(R.id.cv_proceed);
+        tvJoinUs = findViewById(R.id.tv_joinus);
 
         ivShow.setOnClickListener(v -> {
             showPassword = !showPassword;
@@ -86,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
         createProgressDialog();
 
         btnProceed.setOnClickListener(view -> loginUser());
+        tvJoinUs.setOnClickListener(v -> startActivity(new Intent(this, RegistrationActivity.class)));
     }
 
     private void togglePasswordVisibility() {
