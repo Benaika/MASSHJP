@@ -49,12 +49,12 @@ public class RegistrationActivity extends BaseActivity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
-                showLoadingDialog();
+
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                hideLoadingDialog();
+                hideProgressDialog();
             }
         });
 

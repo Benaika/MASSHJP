@@ -29,6 +29,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import ph.com.masshjp.fb.BaseActivity;
 import ph.com.masshjp.fb.Controllers.Dashboard.DashboardActivity;
 import ph.com.masshjp.fb.R;
 
@@ -36,7 +37,7 @@ import ph.com.masshjp.fb.R;
  * Developed by Benaika Lorenzo Paronable | 2024
  */
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     //Firebase
     private FirebaseAuth auth;
@@ -87,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
         createProgressDialog();
 
         btnProceed.setOnClickListener(view -> loginUser());
-        tvJoinUs.setOnClickListener(v -> startActivity(new Intent(this, RegistrationActivity.class)));
+        tvJoinUs.setOnClickListener(v -> { startActivity(new Intent(this, RegistrationActivity.class)); overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left); });
     }
 
     private void togglePasswordVisibility() {
@@ -144,12 +145,14 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        progressDialog.show();
+        showProgressDialog("Logging in...");
+//        progressDialog.dismiss();
         btnProceed.setEnabled(false); // Disable button to prevent multiple clicks
 
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
-                    progressDialog.dismiss();
+                    hideProgressDialog();
+//                    progressDialog.dismiss();
                     btnProceed.setEnabled(true); // Re-enable button
 
                     if (task.isSuccessful()) {
